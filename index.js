@@ -1,6 +1,7 @@
 'use strict';
 
 var level = require('level');
+var concat = require('concat-stream');
 
 var RevisitTether = function (options) {
   if (!options) {
@@ -16,14 +17,14 @@ var RevisitTether = function (options) {
     valueEncoding: 'json'
   });
 
-  this.add = function (service, token, content, next) {
+  this.add = function (url, token, content, next) {
     var serviceItem = {
-      service: service,
+      url: url,
       token: token,
       content: content
     };
 
-    db.put(token + '!' + service, content, function (err) {
+    db.put(token + '!' + Math.floor(Date.now()), serviceItem, function (err) {
       if (err) {
         next(err);
         return;
@@ -35,7 +36,24 @@ var RevisitTether = function (options) {
     });
   };
 
+  this.getAll = function (token, next) {
+    var rs = db.createReadStream({
+      start: token + '!',
+      end: token + '!\xff'
+    });
+
+    rs.pipe(concat(function (services) {
+      next(null, {
+        services: services || []
+      });
+    }));
+      
+    rs.on('error', function (err) {
+      next(err);
+    });
+  };
+
   this.play = function (token) {
-    
+
   };
 };

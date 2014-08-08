@@ -4,7 +4,8 @@
   "description": "Connect API services in revisit.link",
   "main": "index.js",
   "dependencies": {
-    "level": "~0.18.0"
+    "level": "~0.18.0",
+    "concat-stream": "~1.4.6"
   },
   "devDependencies": {
     "mocha": "~1.21.3",
