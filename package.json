@@ -1,0 +1,24 @@
+{
+  "name": "revisit-tether",
+  "version": "1.0.0",
+  "description": "Connect API services in revisit.link",
+  "main": "index.js",
+  "dependencies": {
+    "level": "~0.18.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.21.3",
+    "should": "~4.0.4",
+    "nock": "~0.43.1"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ednapiranha/node-revisit-tether.git"
+  },
+  "keywords": ["revisit.link"],
+  "author": "Edna Piranha <jen@ednapiranha.com> (http://ednapiranha.com)",
+  "license": "BSD"
+}
