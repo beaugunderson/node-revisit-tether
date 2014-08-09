@@ -44,33 +44,38 @@ var RevisitTether = function (options) {
     rs.pipe(concat(function (services) {
       next(null, services || {});
     }));
-      
+
     rs.on('error', function (err) {
       next(err);
     });
   };
 
   this.play = function (token, next) {
+    var count = 0;
+
+    var postToService = function (services, service) {
+      setImmediate(function () {
+        count ++;
+
+        request.post(service.url, { form: {
+          content: service.content
+        }}, function (err, response, body) {
+          console.log()
+          if (count === services.length) {
+            next(null, body || {});
+          }
+        });
+      });
+    };
+
     this.getAll(token, function (err, services) {
       if (err) {
         next(err);
         return;
       }
 
-      var count = 0;
-
       services.forEach(function (service) {
-        setImmediate(function () {
-          count ++;
-
-          request.post(service.url, { form: { 
-            content: service.content
-          }}, function (err, response, body) {
-            if (count === services.length) {
-              next(null, body || {});
-            }
-          });
-        });
+        postToService(services, service);
       });
     });
   };
