@@ -1,6 +1,6 @@
 {
   "name": "revisit-tether",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connect API services in revisit.link",
   "main": "index.js",
   "dependencies": {
