@@ -65,9 +65,7 @@ describe('RevisitTether', function () {
     var service = {
       url: 'http://localhost:3000/service',
       token: TOKEN,
-      content: {
-        message: 'some new content for an API'
-      }
+      content: 'some new content for an API'
     };
 
     var count = 0;
