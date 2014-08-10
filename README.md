@@ -12,7 +12,7 @@ This runs a batch of API services together and returns the end result.
 ## Add
 
     var service = {
-      url: 'http://localhost:8000/service',
+      url: 'http://localhost:8000',
       token: '12345abc',
       content: 'some content for an API'
     };

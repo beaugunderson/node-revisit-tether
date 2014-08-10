@@ -30,7 +30,7 @@ describe('RevisitTether', function () {
 
   it('should add a new service', function (done) {
     var service = {
-      url: 'http://localhost:8000/service',
+      url: 'http://localhost:8000/',
       token: TOKEN,
       content: 'some content for an API'
     };
@@ -43,7 +43,7 @@ describe('RevisitTether', function () {
 
   it('should get all services for a token', function (done) {
     var service = {
-      url: 'http://localhost:3000/service',
+      url: 'http://localhost:3000/',
       token: TOKEN,
       content: 'some new content for an API'
     };
@@ -59,7 +59,7 @@ describe('RevisitTether', function () {
 
   it('should play back all services for a token', function (done) {
     var service = {
-      url: 'http://localhost:3000/service',
+      url: 'http://localhost:3000/',
       token: TOKEN,
       content: 'some new content for an API'
     };

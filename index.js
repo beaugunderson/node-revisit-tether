@@ -55,14 +55,15 @@ var RevisitTether = function (options) {
 
     var postToService = function (services, service) {
       setImmediate(function () {
-        count ++;
-
-        request.post(service.url, { form: {
+        service.url = service.url.replace(/\/$/, '');
+        request.post(service.url + '/service', { form: {
           content: service.content
         }}, function (err, response, body) {
-          if (count === services.length) {
+          if (count === services.length - 1) {
             next(null, body || {});
           }
+
+          count ++;
         });
       });
     };
