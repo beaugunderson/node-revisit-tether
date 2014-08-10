@@ -17,6 +17,10 @@ This runs a batch of API services together and returns the end result.
       content: 'some content for an API'
     };
 
+    rt.add(service, function (err, svc) {
+      console.log(svc);
+    });
+
 ## Get all services for a token
 
     rt.getAll('12345abc', function (err, services) {
