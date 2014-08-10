@@ -32,9 +32,7 @@ describe('RevisitTether', function () {
     var service = {
       url: 'http://localhost:8000/service',
       token: TOKEN,
-      content: {
-        message: 'some content for an API'
-      }
+      content: 'some content for an API'
     };
 
     rt.add(service, function (err, svc) {
@@ -47,9 +45,7 @@ describe('RevisitTether', function () {
     var service = {
       url: 'http://localhost:3000/service',
       token: TOKEN,
-      content: {
-        message: 'some new content for an API'
-      }
+      content: 'some new content for an API'
     };
 
     rt.add(service, function (err) {
@@ -70,7 +66,7 @@ describe('RevisitTether', function () {
 
     var count = 0;
 
-    for (var i = 0; i < serviceArr.length; i ++) {    
+    for (var i = 0; i < serviceArr.length; i ++) {
       count ++;
 
       var scope = nock(serviceArr[i].url)

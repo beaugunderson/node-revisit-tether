@@ -14,9 +14,7 @@ This runs a batch of API services together and returns the end result.
     var service = {
       url: 'http://localhost:8000/service',
       token: '12345abc',
-      content: {
-        message: 'some content for an API'
-      }
+      content: 'some content for an API'
     };
 
 ## Get all services for a token

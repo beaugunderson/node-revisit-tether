@@ -60,7 +60,6 @@ var RevisitTether = function (options) {
         request.post(service.url, { form: {
           content: service.content
         }}, function (err, response, body) {
-          console.log()
           if (count === services.length) {
             next(null, body || {});
           }
