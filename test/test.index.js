@@ -71,7 +71,7 @@ describe('RevisitTether', function () {
 
       var scope = nock(serviceArr[i].url)
         .post('/service', serviceArr[i])
-        .reply(201, { content: 'text ' + count });
+        .reply(201, "{ content: 'text '" + "count }");
 
       if (count === serviceArr.length) {
         rt.play(TOKEN, function (err, result) {

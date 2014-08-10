@@ -3,6 +3,8 @@
 var level = require('level');
 var concat = require('concat-stream');
 var request = require('request');
+var uuid = require('uuid');
+var async = require('async');
 
 var RevisitTether = function (options) {
   if (!options) {
@@ -25,7 +27,7 @@ var RevisitTether = function (options) {
       return;
     }
 
-    db.put(service.token + '!' + Math.floor(Date.now()), service, function (err) {
+    db.put(service.token + '!' + Math.floor(Date.now()) + '!' + uuid.v4(), service, function (err) {
       if (err) {
         next(err);
         return;
@@ -51,31 +53,31 @@ var RevisitTether = function (options) {
   };
 
   this.play = function (token, next) {
-    var count = 0;
-
-    var postToService = function (services, service) {
-      setImmediate(function () {
-        service.url = service.url.replace(/\/$/, '');
-        request.post(service.url + '/service', { form: {
-          content: service.content
-        }}, function (err, response, body) {
-          if (count === services.length - 1) {
-            next(null, body || {});
-          }
-
-          count ++;
-        });
-      });
-    };
-
     this.getAll(token, function (err, services) {
       if (err) {
         next(err);
         return;
       }
 
-      services.forEach(function (service) {
-        postToService(services, service);
+      var requestPost = function (service, next) {
+        request.post(service.url + '/service', { form: {
+          content: service.content
+        }}, function (err, response, body) {
+          content = JSON.parse(body).content
+          next(null, content);
+        });
+      };
+
+      async.reduce(services, services[0].content, function (result, service, done) {
+        request.post(service.url + '/service', { form: {
+          content: result
+        }}, function (err, response, body) {
+          done(null, body? JSON.parse(body).content : {});
+        });
+      }, function (err, finalResult) {
+        next(null, {
+          content: finalResult
+        });
       });
     });
   };
