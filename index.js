@@ -69,10 +69,15 @@ var RevisitTether = function (options) {
       };
 
       async.reduce(services, services[0].content, function (result, service, done) {
-        request.post(service.url + '/service', { form: {
-          content: result
-        }}, function (err, response, body) {
-          done(null, body? JSON.parse(body).content : {});
+        request({
+          method: 'POST',
+          json: true,
+          url: service.url + '/service',
+          body: {
+            content: result
+          }
+        }, function (err, response, body) {
+          done(null, body? body.content : {});
         });
       }, function (err, finalResult) {
         next(null, {
