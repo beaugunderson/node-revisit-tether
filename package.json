@@ -1,6 +1,6 @@
 {
   "name": "revisit-tether",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Connect API services in revisit.link",
   "main": "index.js",
   "dependencies": {
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ednapiranha/node-revisit-tether.git"
+    "url": "git://github.com/revisitors/node-revisit-tether.git"
   },
   "keywords": ["revisit.link"],
   "author": "Edna Piranha <jen@ednapiranha.com> (http://ednapiranha.com)",
