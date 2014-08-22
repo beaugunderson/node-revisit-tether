@@ -12,6 +12,7 @@ var rt = new RevisitTether({
 });
 
 var TOKEN = '12345abc';
+var buffer = 'data:text/plain;charset=utf-8;base64,c29tZSBjb250ZW50IGZvciBhbiBBUEk=';
 var serviceArr = [];
 
 describe('RevisitTether', function () {
@@ -32,7 +33,16 @@ describe('RevisitTether', function () {
     var service = {
       url: 'http://localhost:8000/',
       token: TOKEN,
-      content: 'some content for an API'
+      content: {
+        type: 'text',
+        data: buffer
+      },
+      meta: {
+        audio: {
+          type: false,
+          data: false
+        }
+      }
     };
 
     rt.add(service, function (err, svc) {
@@ -45,7 +55,16 @@ describe('RevisitTether', function () {
     var service = {
       url: 'http://localhost:3000/',
       token: TOKEN,
-      content: 'some new content for an API'
+      content: {
+        type: 'text',
+        data: buffer
+      },
+      meta: {
+        audio: {
+          type: false,
+          data: false
+        }
+      }
     };
 
     rt.add(service, function (err) {
@@ -61,7 +80,16 @@ describe('RevisitTether', function () {
     var service = {
       url: 'http://localhost:3000/',
       token: TOKEN,
-      content: 'some new content for an API'
+      content: {
+        type: 'png',
+        data: 'some content for an API'
+      },
+      meta: {
+        audio: {
+          type: false,
+          data: false
+        }
+      }
     };
 
     var count = 0;
@@ -71,7 +99,8 @@ describe('RevisitTether', function () {
 
       var scope = nock(serviceArr[i].url)
         .post('/service', serviceArr[i])
-        .reply(201, "{ content: 'text '" + "count }");
+        .reply(201, "{ content: { type: 'png', data: 'text " + count +
+          "' }, meta: { audio: { type: false, data: false } } }");
 
       if (count === serviceArr.length) {
         rt.play(TOKEN, function (err, result) {

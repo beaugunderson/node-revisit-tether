@@ -14,7 +14,16 @@ This runs a batch of API services together and returns the end result.
     var service = {
       url: 'http://localhost:8000',
       token: '12345abc',
-      content: 'some content for an API'
+      content: {
+        type: 'image/png',
+        data: 'some content for an API'
+      },
+      meta: {
+        audio: {
+          type: false,
+          data: false
+        }
+      }
     };
 
     rt.add(service, function (err, svc) {

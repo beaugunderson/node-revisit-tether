@@ -5,6 +5,7 @@ var concat = require('concat-stream');
 var request = require('request');
 var uuid = require('uuid');
 var async = require('async');
+var dataURI = require('data-uri-to-buffer');
 
 var RevisitTether = function (options) {
   if (!options) {
@@ -59,25 +60,33 @@ var RevisitTether = function (options) {
         return;
       }
 
-      var requestPost = function (service, next) {
-        request.post(service.url + '/service', { form: {
-          content: service.content
-        }}, function (err, response, body) {
-          content = JSON.parse(body).content
-          next(null, content);
-        });
-      };
+      var contentType = false;
 
-      async.reduce(services, services[0].content, function (result, service, done) {
+      async.reduce(services, services[0].content.data, function (result, service, done) {
+        try {
+          contentType = dataURI(result).type;
+        } catch (err) {
+          console.error('Invalid data URI: ', result);
+        }
+
         request({
           method: 'POST',
           json: true,
           url: service.url + '/service',
           body: {
-            content: result
+            content: {
+              type: contentType,
+              data: result
+            },
+            meta: {
+              audio: {
+                type: service.meta.audio.type,
+                data: service.meta.audio.data
+              }
+            }
           }
         }, function (err, response, body) {
-          done(null, body? body.content : {});
+          done(null, body? body.content.data : {});
         });
       }, function (err, finalResult) {
         next(null, {
