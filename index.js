@@ -6,6 +6,7 @@ var request = require('request');
 var uuid = require('uuid');
 var async = require('async');
 var dataURI = require('data-uri-to-buffer');
+var ttl = require('level-ttl');
 
 var RevisitTether = function (options) {
   if (!options) {
@@ -14,10 +15,10 @@ var RevisitTether = function (options) {
 
   var dbPath = options.db || './db-tether';
 
-  var db = level(dbPath, {
+  var db = ttl(level(dbPath, {
     createIfMissing: true,
     valueEncoding: 'json'
-  });
+  }), { checkFrequency: 15000 });
 
   this.add = function (service, next) {
     var services = [];
@@ -28,7 +29,9 @@ var RevisitTether = function (options) {
       return;
     }
 
-    db.put(service.token + '!' + Math.floor(Date.now()) + '!' + uuid.v4(), service, function (err) {
+    db.put(service.token + '!' + Math.floor(Date.now()) + '!' + uuid.v4(), service,
+      { ttl: 3600000 }, function (err) {
+
       if (err) {
         next(err);
         return;
