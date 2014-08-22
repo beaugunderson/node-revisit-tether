@@ -60,7 +60,7 @@ var RevisitTether = function (options) {
         return;
       }
 
-      var contentType = false;
+      var contentType = '';
 
       async.reduce(services, services[0].content.data, function (result, service, done) {
         request({

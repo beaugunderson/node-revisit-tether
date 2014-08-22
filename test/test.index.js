@@ -39,8 +39,8 @@ describe('RevisitTether', function () {
       },
       meta: {
         audio: {
-          type: false,
-          data: false
+          type: '',
+          data: ''
         }
       }
     };
@@ -61,8 +61,8 @@ describe('RevisitTether', function () {
       },
       meta: {
         audio: {
-          type: false,
-          data: false
+          type: '',
+          data: ''
         }
       }
     };
@@ -86,8 +86,8 @@ describe('RevisitTether', function () {
       },
       meta: {
         audio: {
-          type: false,
-          data: false
+          type: '',
+          data: ''
         }
       }
     };
@@ -100,7 +100,7 @@ describe('RevisitTether', function () {
       var scope = nock(serviceArr[i].url)
         .post('/service', serviceArr[i])
         .reply(201, "{ content: { type: 'png', data: 'text " + count +
-          "' }, meta: { audio: { type: false, data: false } } }");
+          "' }, meta: { audio: { type: '', data: '' } } }");
 
       if (count === serviceArr.length) {
         rt.play(TOKEN, function (err, result) {
