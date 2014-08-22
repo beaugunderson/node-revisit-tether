@@ -58,8 +58,8 @@ var RevisitTether = function (options) {
 
   this.play = function (token, next) {
     this.getAll(token, function (err, services) {
-      if (err) {
-        next(err);
+      if (err || services.length < 1) {
+        next(new Error('Token not found'));
         return;
       }
 
