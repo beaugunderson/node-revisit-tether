@@ -63,19 +63,13 @@ var RevisitTether = function (options) {
       var contentType = false;
 
       async.reduce(services, services[0].content.data, function (result, service, done) {
-        try {
-          contentType = dataURI(result).type;
-        } catch (err) {
-          console.error('Invalid data URI: ', result);
-        }
-
         request({
           method: 'POST',
           json: true,
           url: service.url + '/service',
           body: {
             content: {
-              type: contentType,
+              type: service.content.type,
               data: result
             },
             meta: {
@@ -86,11 +80,14 @@ var RevisitTether = function (options) {
             }
           }
         }, function (err, response, body) {
-          done(null, body? body.content.data : {});
+          done(null, body && body.content? body.content.data : {});
         });
       }, function (err, finalResult) {
         next(null, {
-          content: finalResult
+          content: {
+            type: contentType,
+            data: finalResult
+          }
         });
       });
     });
