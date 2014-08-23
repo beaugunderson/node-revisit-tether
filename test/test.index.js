@@ -34,12 +34,10 @@ describe('RevisitTether', function () {
       url: 'http://localhost:8000/',
       token: TOKEN,
       content: {
-        type: 'text',
         data: buffer
       },
       meta: {
         audio: {
-          type: '',
           data: ''
         }
       }

@@ -63,8 +63,6 @@ var RevisitTether = function (options) {
         return;
       }
 
-      var contentType = '';
-
       async.reduce(services, services[0].content.data, function (result, service, done) {
         request({
           method: 'POST',
@@ -72,15 +70,9 @@ var RevisitTether = function (options) {
           url: service.url + '/service',
           body: {
             content: {
-              type: service.content.type,
               data: result
             },
-            meta: {
-              audio: {
-                type: service.meta.audio.type,
-                data: service.meta.audio.data
-              }
-            }
+            meta: service.meta
           }
         }, function (err, response, body) {
           done(null, body && body.content? body.content.data : {});
@@ -88,7 +80,6 @@ var RevisitTether = function (options) {
       }, function (err, finalResult) {
         next(null, {
           content: {
-            type: contentType,
             data: finalResult
           }
         });
